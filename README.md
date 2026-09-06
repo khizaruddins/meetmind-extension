@@ -19,8 +19,7 @@ A lightweight, zero-media Manifest V3 browser extension engineered for **Google 
 - [Native Messaging Bridge Protocol](#-native-messaging-bridge-protocol)
 - [Directory Structure](#-directory-structure)
 - [Installation & Setup](#-installation--setup)
-  - [1. Register Native Messaging Host](#1-register-native-messaging-host)
-  - [Option A: Quick Installation via Pre-Built ZIP (Recommended)](#option-a-quick-installation-via-pre-built-zip-recommended)
+  - [Option A: Quick Installation via ZIP (Recommended)](#option-a-quick-installation-via-zip-recommended)
   - [Option B: Build & Install from Source (Developers)](#option-b-build--install-from-source-developers)
 - [Automated Testing](#-automated-testing)
 - [Troubleshooting & FAQ](#-troubleshooting--faq)
@@ -133,7 +132,7 @@ Communication between `background.ts` and the native host (`recorder-bridge`) st
 
 ```
 recorder-extension/
-├── MeetMind-Chrome-Extension-v1.0.0.zip # Pre-built production extension zip package
+├── MeetMind-Chrome-Extension-v1.0.0.zip # Pre-built extension package (unzip & load)
 ├── manifest.json                       # Manifest V3 configuration & permissions
 ├── package.json                        # Dependencies, test scripts, and build tools
 ├── tsconfig.json                       # TypeScript compiler options
@@ -157,58 +156,42 @@ recorder-extension/
 
 ## 🚀 Installation & Setup
 
-### 1. Register Native Messaging Host
+### Option A: Quick Installation via ZIP (Recommended)
 
-First, ensure the native messaging host is registered on your machine so the extension can communicate with the MeetMind desktop application:
-
-```bash
-bash /home/khizaruddin/practice/fullapp/recorder-ui/scripts/install-native-host.sh
-```
-
-This installs the JSON manifest to:
-- **Linux**: `~/.config/google-chrome/NativeMessagingHosts/com.meetingrecorder.bridge.json`
-- **macOS**: `~/Library/Application Support/Google/Chrome/NativeMessagingHosts/com.meetingrecorder.bridge.json`
-- **Windows**: `HKCU\Software\Google\Chrome\NativeMessagingHosts\com.meetingrecorder.bridge`
-
----
-
-### Option A: Quick Installation via Pre-Built ZIP (Recommended)
-
-Follow these steps to download and install the extension directly in Google Chrome without compiling code:
+Follow these simple steps to load the extension directly in Google Chrome:
 
 1. **Download the Extension ZIP**:
-   - Download `MeetMind-Chrome-Extension-v1.0.0.zip` from this repository (or from GitHub Releases) into a folder of your choice on your computer.
+   - Download [`MeetMind-Chrome-Extension-v1.0.0.zip`](./MeetMind-Chrome-Extension-v1.0.0.zip) to a folder on your computer.
 
-2. **Unzip to a Specific Folder**:
-   - Extract the contents of `MeetMind-Chrome-Extension-v1.0.0.zip` into a dedicated folder on your system (for example: `~/Downloads/meetmind-extension` or `C:\Extensions\MeetMind`).
-   - Verify that the unzipped folder contains `manifest.json`, `background.js`, `content.js`, and the `icons/` directory.
+2. **Unzip into a Folder**:
+   - Extract the contents of `MeetMind-Chrome-Extension-v1.0.0.zip` to a folder of your choice (e.g., `~/Downloads/MeetMind-Extension` or `C:\Extensions\MeetMind`).
+   - Verify that the unzipped folder contains `manifest.json`, `background.js`, `content.js`, and the `icons/` folder.
 
 3. **Open Chrome Extensions**:
-   - Launch Google Chrome and navigate to the Extensions management page:
+   - Open Google Chrome and navigate to:
      ```text
      chrome://extensions
      ```
-     *(Alternatively, open the Chrome menu **⋮** > **Extensions** > **Manage Extensions**).*
+     *(Or open Chrome menu **⋮** > **Extensions** > **Manage Extensions**).*
 
 4. **Enable Developer Mode**:
    - In the top-right corner of the Extensions page, switch the **Developer mode** toggle to **ON**.
 
 5. **Load Unpacked Extension**:
-   - Click the **Load unpacked** button that appears in the top-left toolbar.
+   - Click the **Load unpacked** button in the top-left toolbar.
 
 6. **Select the Unzipped Folder**:
-   - In the file selector dialog, browse to and select the specific folder where you unzipped the extension (the folder containing `manifest.json`).
+   - In the file picker dialog, select the specific folder where you unzipped the extension (the folder containing `manifest.json`).
    - Click **Select Folder** (or **Open**).
 
-7. **Verify & Ready**:
-   - **MeetMind Google Meet Browser Extension** will now appear in your active extensions list with ID `imbjlkaabfmgfonlpnedfdabkokejblf`.
-   - Whenever you join a Google Meet call at `https://meet.google.com/*`, the extension will automatically detect call lifecycle events and trigger MeetMind recording.
+7. **Ready to Use**:
+   - **MeetMind Google Meet Browser Extension** will now appear in your active extensions with ID `imbjlkaabfmgfonlpnedfdabkokejblf`!
 
 ---
 
 ### Option B: Build & Install from Source (Developers)
 
-If you are developing or compiling from source code:
+If you prefer building directly from the TypeScript source code:
 
 1. **Install Dependencies**:
    ```bash
@@ -225,7 +208,7 @@ If you are developing or compiling from source code:
    - Navigate to `chrome://extensions/` (or `edge://extensions/`).
    - Enable **Developer mode** in the top right corner.
    - Click **Load unpacked**.
-   - Select the extension directory (`/home/khizaruddin/practice/fullapp/recorder-extension`).
+   - Select this extension folder (`/home/khizaruddin/practice/fullapp/recorder-extension`).
    - The extension will load with ID `imbjlkaabfmgfonlpnedfdabkokejblf`.
 
 ---
