@@ -20,8 +20,8 @@ A lightweight, zero-media Manifest V3 browser extension engineered for **Google 
 - [Directory Structure](#-directory-structure)
 - [Installation & Setup](#-installation--setup)
   - [1. Register Native Messaging Host](#1-register-native-messaging-host)
-  - [2. Compile Extension](#2-compile-extension)
-  - [3. Load in Chrome or Edge](#3-load-in-chrome-or-edge)
+  - [Option A: Quick Installation via Pre-Built ZIP (Recommended)](#option-a-quick-installation-via-pre-built-zip-recommended)
+  - [Option B: Build & Install from Source (Developers)](#option-b-build--install-from-source-developers)
 - [Automated Testing](#-automated-testing)
 - [Troubleshooting & FAQ](#-troubleshooting--faq)
 - [License](#-license)
@@ -133,23 +133,24 @@ Communication between `background.ts` and the native host (`recorder-bridge`) st
 
 ```
 recorder-extension/
-├── manifest.json               # Manifest V3 configuration & permissions
-├── package.json                # Dependencies, test scripts, and build tools
-├── tsconfig.json               # TypeScript compiler options
-├── vite.config.ts              # Bundler configuration targeting extension scripts
+├── MeetMind-Chrome-Extension-v1.0.0.zip # Pre-built production extension zip package
+├── manifest.json                       # Manifest V3 configuration & permissions
+├── package.json                        # Dependencies, test scripts, and build tools
+├── tsconfig.json                       # TypeScript compiler options
+├── vite.config.ts                      # Bundler configuration targeting extension scripts
 ├── src/
-│   ├── background.ts           # Service worker managing tabs and native port
-│   ├── content.ts              # Injected content script running DOM observer
-│   ├── meet-detector.ts        # Semantic DOM heuristic evaluation engine
-│   ├── native-messaging.ts     # Native messaging byte-level framing client
-│   └── types.ts                # TypeScript interfaces for events and DOM states
+│   ├── background.ts                   # Service worker managing tabs and native port
+│   ├── content.ts                      # Injected content script running DOM observer
+│   ├── meet-detector.ts                # Semantic DOM heuristic evaluation engine
+│   ├── native-messaging.ts             # Native messaging byte-level framing client
+│   └── types.ts                        # TypeScript interfaces for events and DOM states
 └── tests/
-    ├── detector.test.js        # Jest test suite running against Google Meet fixtures
-    └── fixtures/               # Real-world Google Meet HTML snapshots
-        ├── prejoin.html        # Pre-call lobby HTML fixture
-        ├── in-meeting.html     # Active multi-participant call fixture
-        ├── reconnecting.html   # Network reconnection banner fixture
-        └── ended.html          # Meeting ended screen fixture
+    ├── detector.test.js                # Jest test suite running against Google Meet fixtures
+    └── fixtures/                       # Real-world Google Meet HTML snapshots
+        ├── prejoin.html                # Pre-call lobby HTML fixture
+        ├── in-meeting.html             # Active multi-participant call fixture
+        ├── reconnecting.html           # Network reconnection banner fixture
+        └── ended.html                  # Meeting ended screen fixture
 ```
 
 ---
@@ -158,29 +159,74 @@ recorder-extension/
 
 ### 1. Register Native Messaging Host
 
-Run the automated registration script included in `recorder-ui`:
+First, ensure the native messaging host is registered on your machine so the extension can communicate with the MeetMind desktop application:
 
 ```bash
 bash /home/khizaruddin/practice/fullapp/recorder-ui/scripts/install-native-host.sh
 ```
 
-This installs the JSON manifest to `~/.config/google-chrome/NativeMessagingHosts/com.meetingrecorder.bridge.json`.
+This installs the JSON manifest to:
+- **Linux**: `~/.config/google-chrome/NativeMessagingHosts/com.meetingrecorder.bridge.json`
+- **macOS**: `~/Library/Application Support/Google/Chrome/NativeMessagingHosts/com.meetingrecorder.bridge.json`
+- **Windows**: `HKCU\Software\Google\Chrome\NativeMessagingHosts\com.meetingrecorder.bridge`
 
-### 2. Compile Extension
+---
 
-```bash
-cd /home/khizaruddin/practice/fullapp/recorder-extension
-npm install
-npm run build
-```
+### Option A: Quick Installation via Pre-Built ZIP (Recommended)
 
-### 3. Load in Chrome or Edge
+Follow these steps to download and install the extension directly in Google Chrome without compiling code:
 
-1. Navigate to `chrome://extensions/` (or `edge://extensions/`).
-2. Toggle **Developer mode** in the top right corner.
-3. Click **Load unpacked**.
-4. Select the `/home/khizaruddin/practice/fullapp/recorder-extension` directory.
-5. The extension will appear with ID `imbjlkaabfmgfonlpnedfdabkokejblf`.
+1. **Download the Extension ZIP**:
+   - Download `MeetMind-Chrome-Extension-v1.0.0.zip` from this repository (or from GitHub Releases) into a folder of your choice on your computer.
+
+2. **Unzip to a Specific Folder**:
+   - Extract the contents of `MeetMind-Chrome-Extension-v1.0.0.zip` into a dedicated folder on your system (for example: `~/Downloads/meetmind-extension` or `C:\Extensions\MeetMind`).
+   - Verify that the unzipped folder contains `manifest.json`, `background.js`, `content.js`, and the `icons/` directory.
+
+3. **Open Chrome Extensions**:
+   - Launch Google Chrome and navigate to the Extensions management page:
+     ```text
+     chrome://extensions
+     ```
+     *(Alternatively, open the Chrome menu **⋮** > **Extensions** > **Manage Extensions**).*
+
+4. **Enable Developer Mode**:
+   - In the top-right corner of the Extensions page, switch the **Developer mode** toggle to **ON**.
+
+5. **Load Unpacked Extension**:
+   - Click the **Load unpacked** button that appears in the top-left toolbar.
+
+6. **Select the Unzipped Folder**:
+   - In the file selector dialog, browse to and select the specific folder where you unzipped the extension (the folder containing `manifest.json`).
+   - Click **Select Folder** (or **Open**).
+
+7. **Verify & Ready**:
+   - **MeetMind Google Meet Browser Extension** will now appear in your active extensions list with ID `imbjlkaabfmgfonlpnedfdabkokejblf`.
+   - Whenever you join a Google Meet call at `https://meet.google.com/*`, the extension will automatically detect call lifecycle events and trigger MeetMind recording.
+
+---
+
+### Option B: Build & Install from Source (Developers)
+
+If you are developing or compiling from source code:
+
+1. **Install Dependencies**:
+   ```bash
+   cd /home/khizaruddin/practice/fullapp/recorder-extension
+   npm install
+   ```
+
+2. **Compile the Extension**:
+   ```bash
+   npm run build
+   ```
+
+3. **Load in Chrome or Edge**:
+   - Navigate to `chrome://extensions/` (or `edge://extensions/`).
+   - Enable **Developer mode** in the top right corner.
+   - Click **Load unpacked**.
+   - Select the extension directory (`/home/khizaruddin/practice/fullapp/recorder-extension`).
+   - The extension will load with ID `imbjlkaabfmgfonlpnedfdabkokejblf`.
 
 ---
 
