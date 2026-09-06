@@ -1,0 +1,18 @@
+{
+  "name": "meeting-recorder-extension",
+  "version": "1.0.0",
+  "description": "Google Meet Auto-Detection Extension for Meeting Recorder",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "test": "node --test tests/detector.test.js"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.2.8",
+    "@types/jsdom": "^30.0.0",
+    "jsdom": "^29.1.1",
+    "typescript": "^5.8.3",
+    "vite": "^7.3.6"
+  }
+}
