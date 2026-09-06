@@ -203,12 +203,13 @@ If you prefer building directly from the TypeScript source code:
    ```bash
    npm run build
    ```
+   *(This bundles the TypeScript files and outputs the extension build into the `dist/` folder).*
 
 3. **Load in Chrome or Edge**:
    - Navigate to `chrome://extensions/` (or `edge://extensions/`).
    - Enable **Developer mode** in the top right corner.
    - Click **Load unpacked**.
-   - Select this extension folder (`/home/khizaruddin/practice/fullapp/recorder-extension`).
+   - Select the `dist/` directory generated inside the project (`recorder-extension/dist`).
    - The extension will load with ID `imbjlkaabfmgfonlpnedfdabkokejblf`.
 
 ---
